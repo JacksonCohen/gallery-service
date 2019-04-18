@@ -352,7 +352,7 @@ a {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  height: 416px;
+  height: 433px;
   overflow: auto;
   white-space: nowrap;
 }

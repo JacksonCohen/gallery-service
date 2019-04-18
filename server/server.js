@@ -11,7 +11,7 @@ app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '../client/dist/')));
 
 app.get('/:number', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/'));
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
 app.get('/api', (req, res) => {
@@ -20,10 +20,18 @@ app.get('/api', (req, res) => {
   });
 });
 
+// SQL Database
+// app.get('/api/:id', (req, res) => {
+//   getListingByID(req.params.id, (err, results) => {
+//     res.send(results);
+//   });
+// });
+
+// NoSQL Database
 app.get('/api/:id', (req, res) => {
-  getListingByID(req.params.id, (err, results) => {
-    res.send(results);
-  });
+  getListingByID(req.params.id)
+  .then((results) => res.send(results))
+  .catch(err => { console.error('Error querying database', err)})
 });
 
 const PORT = process.env.PORT || 3000;

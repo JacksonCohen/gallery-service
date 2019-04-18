@@ -13,12 +13,12 @@ class Gallery extends Component {
       path: window.location.pathname.substring(1)
     };
 
-    this.closeLightbox = this.closeLightbox.bind(this);
     this.gotoNext = this.gotoNext.bind(this);
-    this.gotoPrevious = this.gotoPrevious.bind(this);
     this.gotoImage = this.gotoImage.bind(this);
-    this.handleClickImage = this.handleClickImage.bind(this);
+    this.gotoPrevious = this.gotoPrevious.bind(this);
     this.openLightbox = this.openLightbox.bind(this);
+    this.closeLightbox = this.closeLightbox.bind(this);
+    this.handleClickImage = this.handleClickImage.bind(this);
   }
 
   componentDidMount() {
