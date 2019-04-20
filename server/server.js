@@ -2,7 +2,9 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const morgan = require('morgan');
-const { getDataFromDatabase, getListingByID } = require('../database/utils.js');
+const { getDataFromDatabase, getListingByID } = require('../database/mongoDB/utils.js');
+// const { pool } = require('../database/postgreSQL/db.js');
+// const { getDataFromDatabase, getListingByID } = require('../database/postgreSQL/utils.js');
 
 const app = express();
 
@@ -22,16 +24,30 @@ app.get('/api', (req, res) => {
 
 // SQL Database
 // app.get('/api/:id', (req, res) => {
-//   getListingByID(req.params.id, (err, results) => {
-//     res.send(results);
-//   });
+//   pool.connect((err, client, done) => {
+//     if (err) throw err;
+//     else getListingByID(req.params.id, (err, results) => {
+//       console.log(results)
+//       // res.send(results);
+//     });
+//     // client.query('SELECT * FROM users WHERE id = $1', [1], (err, res) => {
+//     //   done()
+//     //   if (err) {
+//     //     console.log(err.stack)
+//     //   } else {
+//     //     console.log(res.rows[0])
+//     //   }
+//     })
+//   })
 // });
 
 // NoSQL Database
 app.get('/api/:id', (req, res) => {
-  getListingByID(req.params.id)
-  .then((results) => res.send(results))
-  .catch(err => { console.error('Error querying database', err)})
+  console.log('made it here', req.params.id)
+  getListingByID(req.params.id, (err, results) => {
+    if (err) console.error('Error querying database...');
+    else res.send(results);
+  });
 });
 
 const PORT = process.env.PORT || 3000;

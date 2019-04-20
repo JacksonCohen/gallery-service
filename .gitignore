@@ -2,3 +2,6 @@ node_modules/
 database.sqlite/
 .cache/
 .DS_Store/
+gallery1.csv
+gallery2.csv
+config.js

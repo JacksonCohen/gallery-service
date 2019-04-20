@@ -1,19 +1,12 @@
-const sqlite3 = require('sqlite3').verbose();
 const images = require('../images.js');
+const fs = require('fs');
+const csv = require('fast-csv');
+const pg = require('pg');
+const config = require('../../config.js');
 
-const db = new sqlite3.Database('./database.sqlite', err => {
-  if (err) {
-    console.log('Error starting the SQLite database.');
-  } else {
-    console.log('Connected to SQLite database.');
-  }
-});
+const pool = new pg.Pool(config);
 
-const randomImage = array => array[Math.floor(array.length * Math.random())];
-
-db.serialize(() => {
-  db.run(`DROP TABLE IF EXISTS gallery`);
-  db.run(`
+const galleryTable = `
   CREATE TABLE IF NOT EXISTS gallery (
     id INTEGER NOT NULL,
     exterior VARCHAR(100),
@@ -26,125 +19,67 @@ db.serialize(() => {
     interior_5 VARCHAR(100) NOT NULL,
     interior_6 VARCHAR(100) NOT NULL,
     interior_7 VARCHAR(100) NOT NULL,
-    interior_8 VARCHAR(100),
-    interior_9 VARCHAR(100),
-    PRIMARY KEY (id)
-   )`);
+    interior_8 VARCHAR(100) NOT NULL,
+    interior_9 VARCHAR(100) NOT NULL
+  )`
 
-  const galleryInsert = db.prepare(`
-    INSERT INTO gallery (exterior, google_maps, google_street, interior_1, interior_2, interior_3, interior_4, interior_5, interior_6, interior_7, interior_8, interior_9) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+pool.query(galleryTable);  
 
-  async function seed() {
-    let singleInsert = await galleryInsert.run(
-      randomImage(images.exteriors),
-      'https://storage.googleapis.com/zillow-listing-pictures/googlemaps_static.png',
-      'https://storage.googleapis.com/zillow-listing-pictures/googlestreet_static.jpeg',
-      randomImage(images.interiors),
-      randomImage(images.interiors),
-      randomImage(images.interiors),
-      randomImage(images.interiors),
-      randomImage(images.interiors),
-      randomImage(images.interiors),
-      randomImage(images.interiors),
-      randomImage(images.interiors),
-      randomImage(images.interiors)
-    );
+const randomImage = array => array[Math.floor(array.length * Math.random())];
+let userID1 = 0;
+let userID2 = 5000000;
 
-    return singleInsert;
+seed1 = () => {
+  let photos = [];
+  
+  for (let i = 0; i < 5000000; i++) {
+    userID1++;
+    photos.push({
+      id: userID1,
+      exterior: randomImage(images.exteriors),
+      google_maps: 'https://storage.googleapis.com/zillow-listing-pictures/googlemaps_static.png',
+      google_street: 'https://storage.googleapis.com/zillow-listing-pictures/googlestreet_static.jpeg',
+      interior_1: randomImage(images.interiors),
+      interior_2: randomImage(images.interiors),
+      interior_3: randomImage(images.interiors),
+      interior_4: randomImage(images.interiors),
+      interior_5: randomImage(images.interiors),
+      interior_6: randomImage(images.interiors),
+      interior_7: randomImage(images.interiors),
+      interior_8: randomImage(images.interiors),
+      interior_9: randomImage(images.interiors)
+    })
   }
-
-  for (let i = 0; i < 100; i++) {
-    seed();
+  return photos;
+}
+seed2 = () => {
+  let photos = [];
+  
+  for (let i = 0; i < 5000000; i++) {
+    userID2++;
+    photos.push({
+      id: userID2,
+      exterior: randomImage(images.exteriors),
+      google_maps: 'https://storage.googleapis.com/zillow-listing-pictures/googlemaps_static.png',
+      google_street: 'https://storage.googleapis.com/zillow-listing-pictures/googlestreet_static.jpeg',
+      interior_1: randomImage(images.interiors),
+      interior_2: randomImage(images.interiors),
+      interior_3: randomImage(images.interiors),
+      interior_4: randomImage(images.interiors),
+      interior_5: randomImage(images.interiors),
+      interior_6: randomImage(images.interiors),
+      interior_7: randomImage(images.interiors),
+      interior_8: randomImage(images.interiors),
+      interior_9: randomImage(images.interiors)
+    })
   }
-
-  // for (let i = 0; i < 100; i++) {
-  //   galleryInsert.run(
-  //     randomImage(images.exteriors),
-  //     'https://storage.googleapis.com/zillow-listing-pictures/googlemaps_static.png',
-  //     'https://storage.googleapis.com/zillow-listing-pictures/googlestreet_static.jpeg',
-  //     randomImage(images.interiors),
-  //     randomImage(images.interiors),
-  //     randomImage(images.interiors),
-  //     randomImage(images.interiors),
-  //     randomImage(images.interiors),
-  //     randomImage(images.interiors),
-  //     randomImage(images.interiors),
-  //     randomImage(images.interiors),
-  //     randomImage(images.interiors)
-  //   );
-  // }
-
-  galleryInsert.finalize();
-});
-
-// db.close(err => {
-//   if (err) {
-//     console.log('Error closing SQLite database.');
-//   } else {
-//     console.log('Closed the SQLite database connection.');
-//   }
-// });
-
-console.log('sqlite.js is being ran');
-module.exports = db;
-
-
-/*
-const Sequelize = require('sequelize')
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: './database/database.sqlite'
-})
-
-const images = require('./images.js')
-
-const randomImage = (array) => array[(Math.floor((array.length) * Math.random() ))]
-
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log("Connected to Sequelize database")
-})
-
-const Listing = sequelize.define('Listing', {
-  id: {
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    allowNull: false
-  },
-  exterior: Sequelize.STRING,
-  interior_1: Sequelize.STRING,
-  interior_2: Sequelize.STRING,
-  interior_3: Sequelize.STRING,
-  interior_4: Sequelize.STRING,
-  interior_5: Sequelize.STRING,
-  interior_6: Sequelize.STRING,
-  interior_7: Sequelize.STRING,
-  interior_8: Sequelize.STRING,
-  interior_9: Sequelize.STRING
-})
-
-
-for (let i = 0; i < 100; i++) {
-  Listing.create({
-    exterior: randomImage(images.exteriors),
-    interior_1: randomImage(images.interors),
-    interior_2: randomImage(images.interors),
-    interior_3: randomImage(images.interors),
-    interior_4: randomImage(images.interors),
-    interior_5: randomImage(images.interors),
-    interior_6: randomImage(images.interors),
-    interior_7: randomImage(images.interors),
-    interior_8: randomImage(images.interors),
-    interior_9: randomImage(images.interors)
-  })
+  return photos;
 }
 
-sequelize
-  .sync({ force: true })
-  .then(() => {
-    console.log("Sequelize Synced!")
-  })
-  
-*/
+const ws1 = fs.createWriteStream('gallery1.csv');
+const ws2 = fs.createWriteStream('gallery2.csv');
+
+csv.write(seed1(), {headers: false}).pipe(ws1);
+csv.write(seed2(), {headers: false}).pipe(ws2);
+
+module.exports.pool = pool;
