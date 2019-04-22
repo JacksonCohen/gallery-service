@@ -43,7 +43,6 @@ app.get('/api', (req, res) => {
 
 // NoSQL Database
 app.get('/api/:id', (req, res) => {
-  console.log('made it here', req.params.id)
   getListingByID(req.params.id, (err, results) => {
     if (err) console.error('Error querying database...');
     else res.send(results);

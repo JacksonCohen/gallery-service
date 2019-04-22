@@ -8,7 +8,7 @@ class Slideshow extends React.Component {
   render() {
     return (
       <div className="slideshow-container">
-        {this.props.listings.map((listing, i) => (
+        {this.props.listings.slice(1).map((listing, i) => (
           <div key={i} className={listing.thumbnailWidth === 550 ? 'large-tile' : 'small-tile'}>
             <img
               onClick={e => this.props.openLightbox(i, e)}
