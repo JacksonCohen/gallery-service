@@ -16,9 +16,10 @@ MongoClient.connect(url, { useNewUrlParser: true })
       .then(() => {
         if (count < 2000) {
           seedPhotos();
-        } else {
-          db.collection('gallery').createIndex({id: 1});
-          console.log('Gallery indexing in process!');
+        // *INDEX BEFORE SEEDING AWS INSTANCE*
+        // } else {
+          // db.collection('gallery').createIndex({id: 1});
+          // console.log('Gallery indexing in process!');
         }
       })
       .catch(err => console.log(err, 'Error seeding database!'))
