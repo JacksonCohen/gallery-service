@@ -51,5 +51,5 @@ app.get('/api/:id', (req, res) => {
 
 const PORT = process.env.PORT || 3010;
 app.listen(PORT, () => {
-  console.log('Connected to Express server on Port 3010');
+  console.log(`Connected to Express server on port ${PORT}`);
 });
