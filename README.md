@@ -28,7 +28,6 @@ Backend:
 
 * `npm run start`
 
-* Navigate to http://localhost:3000/ followed up by any number 1-100 to view a unique listing.
-  * eg: http://localhost:3000/45
-  * eg: http://localhost:3000/82, etc
-  
+* Navigate to http://localhost:3010/ followed up by any number 1-100 to view a unique listing.
+  * eg: http://localhost:3010/45
+  * eg: http://localhost:3010/82, etc
