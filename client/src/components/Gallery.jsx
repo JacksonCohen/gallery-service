@@ -3,7 +3,6 @@ import axios from 'axios';
 import NavBarOne from './NavBarOne.jsx';
 import Slideshow from './Slideshow.jsx';
 import Lightbox from 'react-images';
-import css from './Gallery.css';
 
 class Gallery extends Component {
   constructor(props) {
@@ -24,8 +23,8 @@ class Gallery extends Component {
   componentDidMount() {
     const { path } = this.state;
     axios
-      .get(`http://52.15.214.88:3010/api/${path}`)
-      // .get(`http://localhost:3010/api/${path}`)
+      // .get(`http://52.15.214.88:3010/api/${path}`)
+      .get(`http://localhost:3010/api/${path}`)
       .then(({ data }) => {
         return Object.entries(data[0])
           .filter(listing => listing[0] !== 'id')
