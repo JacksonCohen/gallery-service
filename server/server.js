@@ -1,4 +1,5 @@
 require('newrelic');
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
@@ -13,20 +14,19 @@ app.use(cors());
 // app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '../client/dist/')));
 
+app.get(`${process.env.LOADER_IO_KEY}`, (req, res) => {
+  res.sendFile(path.join(__dirname, `../public/${process.env.LOADER_IO_KEY}`));
+});
+
 app.get('/:number', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
-app.get('/api', (req, res) => {
-  axios.get('3.14.148.222/api')
-  .then((results) => res.send(results))
-  .catch(err => console.error(err));
-});
-
 // NoSQL Database
 app.get('/api/:id', (req, res) => {
-  axios.get('3.14.148.222/api/:id')
-    .then((results) => res.send(results))
+  axios.get(`http://3.14.148.222:3010/api/${req.params.id}`)
+  // axios.get('http://localhost:3011/api/:id')
+    .then((results) => res.send(results.data))
     .catch(err => console.error(err));
 });
 

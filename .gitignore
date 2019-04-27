@@ -6,3 +6,5 @@ gallery1.csv
 gallery2.csv
 config.js
 test.yml
+.env
+newrelic_agent.log
