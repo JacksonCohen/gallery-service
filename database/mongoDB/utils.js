@@ -1,7 +1,6 @@
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017';
 
-
 const getListingByID = (id, callback) => {
   MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
     if (err) throw err;
@@ -12,6 +11,5 @@ const getListingByID = (id, callback) => {
     });
   });
 }
-
 
 module.exports.getListingByID = getListingByID;

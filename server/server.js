@@ -1,15 +1,16 @@
+require('newrelic');
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const axios = require('axios');
 const morgan = require('morgan');
-const { getDataFromDatabase, getListingByID } = require('../database/mongoDB/utils.js');
 // const { pool } = require('../database/postgreSQL/db.js');
 // const { getDataFromDatabase, getListingByID } = require('../database/postgreSQL/utils.js');
 
 const app = express();
 
 app.use(cors());
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '../client/dist/')));
 
 app.get('/:number', (req, res) => {
@@ -17,9 +18,16 @@ app.get('/:number', (req, res) => {
 });
 
 app.get('/api', (req, res) => {
-  getDataFromDatabase((err, results) => {
-    res.send(results);
-  });
+  axios.get('3.14.148.222/api')
+  .then((results) => res.send(results))
+  .catch(err => console.error(err));
+});
+
+// NoSQL Database
+app.get('/api/:id', (req, res) => {
+  axios.get('3.14.148.222/api/:id')
+    .then((results) => res.send(results))
+    .catch(err => console.error(err));
 });
 
 // SQL Database
@@ -41,15 +49,7 @@ app.get('/api', (req, res) => {
 //   })
 // });
 
-// NoSQL Database
-app.get('/api/:id', (req, res) => {
-  getListingByID(req.params.id, (err, results) => {
-    if (err) console.error('Error querying database...');
-    else res.send(results);
-  });
-});
-
-const PORT = process.env.PORT || 3010;
-app.listen(PORT, () => {
-  console.log(`Connected to Express server on port ${PORT}`);
+const port = process.env.PORT || 3010;
+app.listen(port, () => {
+  console.log(`Connected to Express server on port ${port}`);
 });
