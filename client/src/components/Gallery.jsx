@@ -23,7 +23,7 @@ class Gallery extends Component {
   componentDidMount() {
     const { path } = this.state;
     axios
-      .get(`http://52.15.214.88:3010/api/${path}`)
+      .get(`http://52.15.74.162:3010/api/${path}`)
       // .get(`http://localhost:3010/api/${path}`)
       .then(({ data }) => {
         return Object.entries(data[0])

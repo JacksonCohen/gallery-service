@@ -1,5 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://localhost:27017';
+const url = `mongodb://${process.env.MONGO_DB}:27017`;
 
 const getListingByID = (id, callback) => {
   MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {

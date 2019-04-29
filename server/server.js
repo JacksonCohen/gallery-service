@@ -1,10 +1,11 @@
 require('newrelic');
 require('dotenv').config();
-const express = require('express');
 const path = require('path');
 const cors = require('cors');
-const axios = require('axios');
 const morgan = require('morgan');
+const express = require('express');
+const port = process.env.PORT || 3010;
+const { getListingByID } = require('../database/mongoDB/utils.js');
 // const { pool } = require('../database/postgreSQL/db.js');
 // const { getDataFromDatabase, getListingByID } = require('../database/postgreSQL/utils.js');
 
@@ -24,10 +25,10 @@ app.get('/:number', (req, res) => {
 
 // NoSQL Database
 app.get('/api/:id', (req, res) => {
-  axios.get(`http://3.14.148.222:3010/api/${req.params.id}`)
-  // axios.get('http://localhost:3011/api/:id')
-    .then((results) => res.send(results.data))
-    .catch(err => console.error(err));
+  getListingByID(req.params.id, (err, results) => {
+    if (err) console.error(err, 'Error querying database...');
+    else res.send(results);
+  });
 });
 
 // SQL Database
@@ -49,7 +50,6 @@ app.get('/api/:id', (req, res) => {
 //   })
 // });
 
-const port = process.env.PORT || 3010;
 app.listen(port, () => {
   console.log(`Connected to Express server on port ${port}`);
 });
