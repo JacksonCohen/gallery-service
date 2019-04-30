@@ -1,14 +1,16 @@
 const MongoClient = require('mongodb').MongoClient;
 const url = `mongodb://${process.env.MONGO_DB}:27017`;
+var db;
+
+MongoClient.connect(url, { useNewUrlParser: true }, (err, database) => {
+  if (err) throw err;
+  db = database.db('gallery');
+});
 
 const getListingByID = (id, callback) => {
-  MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
+  db.collection('gallery').find({id: +id}).toArray((err, results) => {
     if (err) throw err;
-    db = client.db('gallery');
-    db.collection('gallery').find({id: +id}).toArray((err, results) => {
-      if (err) throw err;
-      callback(null, results);
-    });
+    callback(null, results);
   });
 }
 

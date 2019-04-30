@@ -7,7 +7,7 @@
     "start": "nodemon server/server.js",
     "dev": "parcel client/src/index.js client/src/styles.css client/src/index.html -o bundle.js --no-source-maps -d client/dist",
     "build": "parcel build client/src/index.js client/src/styles.css client/src/index.html -o bundle.js --no-source-maps -d client/dist",
-    "test": "jest"
+    "test": "artillery run test.yml"
   },
   "keywords": [],
   "author": "",
