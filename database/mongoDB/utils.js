@@ -1,6 +1,6 @@
 const MongoClient = require('mongodb').MongoClient;
 const url = `mongodb://${process.env.MONGO_DB}:27017`;
-var db;
+let db;
 
 MongoClient.connect(url, { useNewUrlParser: true }, (err, database) => {
   if (err) throw err;

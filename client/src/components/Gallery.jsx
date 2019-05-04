@@ -27,7 +27,7 @@ class Gallery extends Component {
       // .get(`http://localhost:3010/api/${path}`)
       .then(({ data }) => {
         return Object.entries(data[0])
-          .filter(listing => listing[0] !== 'id')
+          .filter(listing => listing[0] !== 'id' && listing[0] !== '_id')
           .map(([type, url]) => {
             if (type === 'exterior') {
               return {

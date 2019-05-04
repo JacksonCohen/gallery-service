@@ -11,8 +11,8 @@ const { getListingByID } = require('../database/mongoDB/utils.js');
 
 const app = express();
 
+// app.use(morgan('dev'));
 app.use(cors());
-app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '../client/dist/')));
 
 app.get(`/${process.env.LOADER_IO_KEY}`, (req, res) => {
