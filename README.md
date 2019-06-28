@@ -30,7 +30,7 @@
   - 10 million `house` records 
 - Node.js component server hosted on 4 EC2 t2.micros load balanced with Nginx
 - Each request is a `GET` request for a random API endpoint (a house with `id` between `1` and `10,000,000`)
-##### 2,500 Requests Per Second Over 60 Seconds (<0.1% Error Rate)
+##### 2,500 Requests Per Second Over 30 Seconds (<0.1% Error Rate)
 ![2,500 RPS](screenshots/2500rps.png)
 
 ## Requirements
