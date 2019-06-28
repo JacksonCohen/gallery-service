@@ -12,9 +12,9 @@ class Gallery extends Component {
       path: window.location.pathname.substring(1)
     };
 
-    this.gotoNext = this.gotoNext.bind(this);
-    this.gotoImage = this.gotoImage.bind(this);
-    this.gotoPrevious = this.gotoPrevious.bind(this);
+    this.goToNext = this.goToNext.bind(this);
+    this.goToImage = this.goToImage.bind(this);
+    this.goToPrevious = this.goToPrevious.bind(this);
     this.openLightbox = this.openLightbox.bind(this);
     this.closeLightbox = this.closeLightbox.bind(this);
     this.handleClickImage = this.handleClickImage.bind(this);
@@ -23,8 +23,8 @@ class Gallery extends Component {
   componentDidMount() {
     const { path } = this.state;
     axios
-      .get(`http://52.15.74.162:3010/api/${path}`)
-      // .get(`http://localhost:3010/api/${path}`)
+      // .get(`http://52.15.74.162:3010/api/${path}`)
+      .get(`http://localhost:3010/api/${path}`)
       .then(({ data }) => {
         return Object.entries(data[0])
           .filter(listing => listing[0] !== 'id' && listing[0] !== '_id')
@@ -68,19 +68,19 @@ class Gallery extends Component {
     });
   }
 
-  gotoPrevious() {
+  goToPrevious() {
     this.setState({
       currentImage: this.state.currentImage - 1
     });
   }
 
-  gotoNext() {
+  goToNext() {
     this.setState({
       currentImage: this.state.currentImage + 1
     });
   }
 
-  gotoImage(index) {
+  goToImage(index) {
     this.setState({
       currentImage: index
     });
@@ -92,7 +92,8 @@ class Gallery extends Component {
   }
 
   render() {
-    const { listings } = this.state;
+    const { listings, currentImage, lightboxIsOpen } = this.state;
+    const { preventScroll, showThumbnails, spinner, spinnerColor, spinnerSize, theme } = this.props;
 
     return (
       <>
@@ -102,19 +103,19 @@ class Gallery extends Component {
         <Slideshow listings={listings} openLightbox={this.openLightbox} />
         <Lightbox
           images={listings}
-          currentImage={this.state.currentImage}
-          isOpen={this.state.lightboxIsOpen}
+          currentImage={currentImage}
+          isOpen={lightboxIsOpen}
           onClickImage={this.handleClickImage}
-          onClickNext={this.gotoNext}
-          onClickPrev={this.gotoPrevious}
-          onClickThumbnail={this.gotoImage}
+          onClickNext={this.goToNext}
+          onClickPrev={this.goToPrevious}
+          onClickThumbnail={this.goToImage}
           onClose={this.closeLightbox}
-          preventScroll={this.props.preventScroll}
-          showThumbnails={this.props.showThumbnails}
-          spinner={this.props.spinner}
-          spinnerColor={this.props.spinnerColor}
-          spinnerSize={this.props.spinnerSize}
-          theme={this.props.theme}
+          preventScroll={preventScroll}
+          showThumbnails={showThumbnails}
+          spinner={spinner}
+          spinnerColor={spinnerColor}
+          spinnerSize={spinnerSize}
+          theme={theme}
         />
       </>
     );

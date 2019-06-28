@@ -1,8 +1,8 @@
-const images = require('../images.js');
+const images = require('../../images.js');
 const fs = require('fs');
 const csv = require('fast-csv');
 const pg = require('pg');
-const config = require('../../config.js');
+const config = require('../../../config.js');
 
 const pool = new pg.Pool(config);
 

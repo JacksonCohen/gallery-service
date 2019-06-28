@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server/server.js",
+    "start": "node server/server.js",
     "dev": "parcel client/src/index.js client/src/styles.css client/src/index.html -o bundle.js --no-source-maps -d client/dist",
     "build": "parcel build client/src/index.js client/src/styles.css client/src/index.html -o bundle.js --no-source-maps -d client/dist",
+    "server-dev": "nodemon server/server.js",
     "test": "artillery run test.yml"
   },
   "keywords": [],
@@ -17,13 +18,11 @@
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
-    "mongoose": "^5.5.2",
+    "mongodb": "^3.2.7",
     "newrelic": "^5.7.0",
-    "pg": "^7.10.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-images": "^0.5.19",
-    "sqlite3": "^4.0.6"
+    "react-images": "^0.5.19"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
@@ -40,7 +39,6 @@
     "jest": "^24.7.1",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.10",
-    "parcel-bundler": "^1.12.3",
-    "prettier": "^1.16.4"
+    "parcel-bundler": "^1.12.3"
   }
 }
